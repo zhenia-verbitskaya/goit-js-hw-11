@@ -6,12 +6,20 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import createMarkup from "./js/render-functions";
 import getPictures from "./js/pixabay-api";
 
+
 const formSearch = document.querySelector(".search");
 const gallery = document.querySelector(".gallery");
 const loader = document.querySelector(".loader");
+const refreshPage = new SimpleLightbox(".gallery a", {
+  captions: true,
+  captionsData: "alt",
+  captionDelay: 250,
+});
+
 
 loader.style.display = "none";
 formSearch.addEventListener("submit", onSearch);
+
 
 function onSearch(event) {
   event.preventDefault();
@@ -31,13 +39,8 @@ function onSearch(event) {
         });
       }
 
-      gallery.innerHTML = ("beforeend", createMarkup(data.hits));
+      gallery.insertAdjacentHTML("beforeend", createMarkup(data.hits));
 
-      const refreshPage = new SimpleLightbox(".gallery a", {
-        captions: true,
-        captionsData: "alt",
-        captionDelay: 250,
-      });
       refreshPage.refresh();
 
       formSearch.reset();
